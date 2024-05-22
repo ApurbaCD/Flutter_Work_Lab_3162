@@ -60,6 +60,11 @@ class _HomePageState extends State<HomePage> {
       },
       );
   }
+  void deleteTask(int index){
+    setState(() {
+      toDoList.removeAt(index);
+    });
+  }
   
 
   @override
@@ -81,7 +86,7 @@ class _HomePageState extends State<HomePage> {
           return ToDoList(taskName: toDoList[index][0], 
           taskCompleted: toDoList[index][1], 
           onChange: (value)=>checkboxchanged(value,index),
-          deleteFunction: (context)=> deleteTask(),
+          deleteFunction: (context)=> deleteTask(index),
           );
         },
       )
@@ -114,6 +119,7 @@ class ToDoList extends StatelessWidget {
               onPressed: deleteFunction,
               icon:Icons.delete,
               backgroundColor: Colors.red.shade300,
+              borderRadius: BorderRadius.circular(12),
               )
           ],
         ),

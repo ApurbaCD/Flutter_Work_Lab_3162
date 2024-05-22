@@ -1,100 +1,140 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-
-void main() {
-  runApp(
-    const MaterialApp(
-      title: 'My app', // used by the OS task switcher
-      home: SafeArea(
-        child: MyScaffold(),
-      ),
-    ),
-  );
+void main(){
+  runApp(const MyApp());
 }
 
-class MyScaffold extends StatefulWidget {
-  const MyScaffold({super.key});
+class MyApp extends StatelessWidget{
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+      theme: ThemeData(primarySwatch: Colors.yellow),
+    );
+  }
+}
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyScaffold> createState() => _MyScaffoldState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyScaffoldState extends State<MyScaffold> {
-  int cnt=0;
-  void incre(){
+class _HomePageState extends State<HomePage> {
+  //list of todo tasks
+  List toDoList=[
+    ['make tutorial',false],
+    ['do exercise',false],
+  ];
+  //checkbox was tapped 
+  void checkboxchanged( bool? value , index){
     setState(() {
-      cnt++;
+      toDoList[index][1]=!toDoList[index][1];
     });
   }
+  void createNewTask(){
+    showDialog(
+      context: context,
+      builder: (context){
+        return DialogBox();
+      },
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
-    
-    // Material is a conceptual piece
-    // of paper on which the UI appears.
-    return Column(
-      
-      // Column is a vertical, linear layout.
-        children: [
-          MyAppBar(
-            title: Text(
-              'Menu',
-              style: Theme.of(context) //
-                  .primaryTextTheme
-                  .titleLarge,
-            ),
-          ),
-            ElevatedButton(
-            onPressed:incre,
-            // icon:Icon(Icons.add),
-            child : Text('Count : $cnt'),
-            ),
-          const Expanded(
-            child: Center(
-              child: Text('Hello, world! '),
-            ),
-          ),
 
-        ],
+    return Scaffold(
+      backgroundColor: Colors.yellow[200],
+      appBar: AppBar(
+        title: Text('todo '),
+        elevation: 0,
+      ),
+      floatingActionButton:FloatingActionButton(
+        onPressed:createNewTask,
+        child: Icon(Icons.add),
+      ), 
+      body:ListView.builder(
+        itemCount: toDoList.length,
+        itemBuilder:(context, index){
+          return ToDoList(taskName: toDoList[index][0], 
+          taskCompleted: toDoList[index][1], 
+          onChange: (value)=>checkboxchanged(value,index),
+          );
+        },
+      )
     );
   }
 }
 
+class ToDoList extends StatelessWidget {
+  final String taskName;
+  final bool taskCompleted;
+  Function(bool?)? onChange;
 
-class MyAppBar extends StatelessWidget {
-  const MyAppBar({required this.title, super.key});
-
-  // Fields in a Widget subclass are always marked "final".
-
-  final Widget title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 56, // in logical pixels
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(color: Color.fromARGB(255, 93, 147, 190)),
-      // Row is a horizontal, linear layout.
-      child: Row(
-        children: [
-          const IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Navigation menu',
-            onPressed: null, // null disables the button
+  ToDoList({
+    super.key,
+    required this.taskName,
+    required this.taskCompleted,
+    required this.onChange,
+    });
+  
+  Widget build(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 25.0),
+      child: Container(
+        padding: EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.yellow,
+          borderRadius: BorderRadius.circular(12)
           ),
-          // Expanded expands its child
-          // to fill the available space.
-          Expanded(
-            child: title,
-          ),
-          const IconButton(
-            icon: Icon(Icons.search),
-            tooltip: 'Search',
-            onPressed: null,
-          ),
-          
-        ],
+        child: Row(
+          children: [
+            //checkbox 
+            Checkbox(
+              value: taskCompleted,
+              onChanged: onChange,
+              activeColor: Colors.black,
+              ),
+            //task name
+            Text(
+              taskName,
+              style: TextStyle(decoration:  taskCompleted? TextDecoration.lineThrough :TextDecoration.none),
+              ),
+          ],
+        ),
       ),
     );
   }
 }
+ class DialogBox extends StatelessWidget{
+  const DialogBox({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.yellow[300],
+      content:Container(
+        height: 120,
+        child: Column(
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                border:OutlineInputBorder(),
+                hintText: 'Add a new task',
+                ),
+            ),
+            Row(children: [
+
+            ],)
+          ],
+        ),
+        ),
+    );
+  }
+ }
 

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+// import 'package:flutter_slidable/flutter_slidable.dart';
 
 void main(){
   runApp(const MyApp());
@@ -111,18 +111,18 @@ class ToDoList extends StatelessWidget {
   Widget build(BuildContext context){
     return Padding(
       padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 25.0),
-      child: Slidable(
-        endActionPane: ActionPane(
-          motion: StretchMotion(),
-          children: [
-            SlidableAction(
-              onPressed: deleteFunction,
-              icon:Icons.delete,
-              backgroundColor: Colors.red.shade300,
-              borderRadius: BorderRadius.circular(12),
-              )
-          ],
-        ),
+      // child: Slidable(
+      //   endActionPane: ActionPane(
+      //     motion: StretchMotion(),
+      //     children: [
+      //       SlidableAction(
+      //         onPressed: deleteFunction,
+      //         icon:Icons.delete,
+      //         backgroundColor: Colors.red.shade300,
+      //         borderRadius: BorderRadius.circular(12),
+      //         )
+      //     ],
+      //   ),
         child: Container(
           padding: EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -145,7 +145,7 @@ class ToDoList extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      //),
     );
   }
 }

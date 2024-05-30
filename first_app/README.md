@@ -17,5 +17,4 @@ samples, guidance on mobile development, and a full API reference.
 * ! [Alt text!](/picture/A.png)
 * ! [Alt text!](/picture/B.png)
 * ! [Alt text!](/picture/C.png)
-<!-- * ! [Alt text!](/picture/D.png) -->
-<!-- i amn |lk -->
+* ! [Alt text!](/picture/D.png)
